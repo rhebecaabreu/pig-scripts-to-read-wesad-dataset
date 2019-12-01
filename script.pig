@@ -1,4 +1,4 @@
-# S2 - MALE 
+-- S2 - MALE 
 REGISTER '/home/aluno06/pig-0.17.0/piggybank.jar'
 DEFINE POW org.apache.pig.piggybank.evaluation.math.POW;
 
@@ -27,11 +27,24 @@ values_calculated = FOREACH subject {
 		emg_value AS emg_value,
 		resp_value AS respiration_value,
 		temp_value AS temperature_value;
-}
+};
 
-STORE values_calculated INTO 'myoutput3' USING PigStorage ('\t');
+-- STORE values_calculated INTO 'myoutput3' USING PigStorage ('\t');
+
+grouped_values = GROUP values_calculated ALL;
+
+teste = FOREACH grouped_values {
+          media_ecg_value = AVG(values_calculated.ecg_value);
+          media_eda_value = AVG(values_calculated.eda_value);
+          media_emg_value = AVG(values_calculated.emg_value);
+          media_respiration_value = AVG(values_calculated.respiration_value);
+          media_temperature_value = AVG(values_calculated.temperature_value);
+
+          GENERATE media_ecg_value, media_eda_value, media_emg_value, media_respiration_value, media_temperature_value;
+        };
+        
+STORE teste INTO 'myoutput44' USING PigStorage ('\t');
 
 
-teste = FOREACH values_calculated GENERATE AVG(values_calculated.temp_value);
-DUMP teste;
-# DUMP values_calculated;
+
+-- # DUMP values_calculated;

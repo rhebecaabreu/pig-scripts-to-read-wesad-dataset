@@ -1,4 +1,4 @@
--- S2 - MALE 
+-- S3 - MALE 
 REGISTER '/home/aluno06/pig-0.17.0/piggybank.jar'
 DEFINE POW org.apache.pig.piggybank.evaluation.math.POW;
 
@@ -43,4 +43,4 @@ media_values = FOREACH grouped_values {
           GENERATE media_ecg_value, media_eda_value, media_emg_value, media_respiration_value, media_temperature_value;
         };
         
-STORE media_values INTO 's2Male' USING PigStorage ('\t');
+STORE media_values INTO 's3MaleMedia' USING PigStorage ('\t');

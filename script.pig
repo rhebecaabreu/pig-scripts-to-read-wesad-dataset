@@ -33,7 +33,7 @@ values_calculated = FOREACH subject {
 
 grouped_values = GROUP values_calculated ALL;
 
-teste = FOREACH grouped_values {
+media_values = FOREACH grouped_values {
           media_ecg_value = AVG(values_calculated.ecg_value);
           media_eda_value = AVG(values_calculated.eda_value);
           media_emg_value = AVG(values_calculated.emg_value);
@@ -43,7 +43,7 @@ teste = FOREACH grouped_values {
           GENERATE media_ecg_value, media_eda_value, media_emg_value, media_respiration_value, media_temperature_value;
         };
         
-STORE teste INTO 'myoutput44' USING PigStorage ('\t');
+STORE media_values INTO 'myoutput44' USING PigStorage ('\t');
 
 
 

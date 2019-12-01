@@ -6,10 +6,10 @@ subject = LOAD '/home/aluno06/teste/WESAD/S3/S3_respiban.txt' USING PigStorage('
 
 values_calculated = FOREACH subject {
 	chan_bit = (POW(2,16));
-	ecg_value = ((signal_ecg / (chan_bit - 0.5)) * 3);
+	ecg_value = (((signal_ecg / chan_bit) - 0.5) * 3);
 	eda_value = (((signal_eda / chan_bit) * 3) / 0.12);
-	emg_value = ((signal_emg / (chan_bit - 0.5)) * 3);
-	resp_value = ((signal_resp / (chan_bit - 0.5)) * 100);
+	emg_value = (((signal_emg / chan_bit) - 0.5) * 3);
+	resp_value = (((signal_resp / chan_bit) - 0.5) * 100);
 	
   ntc = (signal_temp * 3) / (POW(2,16));
   ntr = (POW(10,4) * ntc) / (3 - ntc);
@@ -43,8 +43,4 @@ media_values = FOREACH grouped_values {
           GENERATE media_ecg_value, media_eda_value, media_emg_value, media_respiration_value, media_temperature_value;
         };
         
-STORE media_values INTO 'myoutput44' USING PigStorage ('\t');
-
-
-
--- # DUMP values_calculated;
+STORE media_values INTO 's2Male' USING PigStorage ('\t');

@@ -44,3 +44,27 @@ media_values = FOREACH grouped_values {
         };
         
 STORE media_values INTO 's3MaleMedia' USING PigStorage ('\t');
+
+max_values = FOREACH grouped_values {
+          max_ecg_value = MAX(values_calculated.ecg_value);
+          max_eda_value = MAX(values_calculated.eda_value);
+          max_emg_value = MAX(values_calculated.emg_value);
+          max_respiration_value = MAX(values_calculated.respiration_value);
+          max_temperature_value = MAX(values_calculated.temperature_value);
+
+          GENERATE max_ecg_value, max_eda_value, max_emg_value, max_respiration_value, max_temperature_value;
+        };
+        
+STORE max_values INTO 's3MaleMax' USING PigStorage ('\t');
+
+min_values = FOREACH grouped_values {
+          min_ecg_value = MIN(values_calculated.ecg_value);
+          min_eda_value = MIN(values_calculated.eda_value);
+          min_emg_value = MIN(values_calculated.emg_value);
+          min_respiration_value = MIN(values_calculated.respiration_value);
+          min_temperature_value = MIN(values_calculated.temperature_value);
+
+          GENERATE min_ecg_value, min_eda_value, min_emg_value, min_respiration_value, min_temperature_value;
+        };
+        
+STORE min_values INTO 's3MaleMin' USING PigStorage ('\t');
